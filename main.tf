@@ -1,6 +1,7 @@
 module "vpc" {
   source           = "./modules/vpc"
   vpc_id  = var.vpc_id
+   name_prefix = "myproject"
   cidr_block       = var.vpc_cidr_block
   instance_tenancy = var.vpc_instance_tenancy
   tags_name        = var.vpc_tags_name
@@ -9,7 +10,8 @@ module "vpc" {
 module "subnets" {
   source            = "./modules/subnets"
   vpc_id            = module.vpc.vpc_id
-  subnet_cidrs      = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnet_cidrs      = ["10.0.1.0/24", "10.0.2.0/24"]
+  private_subnet_cidrs = ["10.0.101.0/24", "10.0.102.0/24"]
   availability_zones = ["ap-south-1a", "ap-south-1b"]
   name_prefix       = "myapp"
 }
