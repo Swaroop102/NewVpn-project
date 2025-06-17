@@ -7,7 +7,7 @@ variable "vpc_id" {
   type        = string
 }
 
-
+variable "name_prefix" {}
 variable "igw_tags_name" {}
 variable "route_table_tags_name" {}
 

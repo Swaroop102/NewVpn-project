@@ -11,8 +11,8 @@ output "igw_id" {
   value = module.igw.igw_id
 }
 
-output "route_table_id" {
-  value = module.route_table.route_table_id
+output "private_route_table_id" {
+  value = module.private_route_table.private_route_table_id
 }
 
 output "security_group_id" {

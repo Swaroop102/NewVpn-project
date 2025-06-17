@@ -22,13 +22,15 @@ module "igw" {
   tags_name = var.igw_tags_name
 }
 
-module "route_table" {
-  source     = "./modules/route_table"
-  vpc_id     = module.vpc.vpc_id
-  gateway_id = module.igw.igw_id
-  tags_name  = var.route_table_tags_name
-}
 
+
+module "private_route_table" {
+  source             = "./modules/private_route_table"
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.subnets.private_subnet_ids
+  nat_gateway_id     = module.nat_gateway.nat_gateway_id
+  name_prefix        = var.name_prefix
+}
 
 module "route_table_association" {
   source         = "./modules/route_table_association"
@@ -69,4 +71,5 @@ provider "aws" {
 module "nat_gateway" {
   source           = "./modules/nat_gateway"
   public_subnet_id  = module.subnets.public_subnet_ids[0]
+  name_prefix      = var.name_prefix
 }
