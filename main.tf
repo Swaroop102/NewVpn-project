@@ -63,13 +63,27 @@ module "ec2_instance" {
   source           = "./modules/ec2_instance"
   ami              = var.ec2_ami
   instance_type    = var.ec2_instance_type
+  #key_name             = var.key_name
   subnet_id = module.subnets.public_subnet_ids[0]
   security_group_id = module.security_group.security_group_id
   tags_name        = var.ec2_tags_name
-  name_prefix    = "web" 
-  instance_count = 2
+  name_prefix    = "public" 
+  instance_count = 1
+  associate_public_ip  = true
 }
 
+module "ec2_instance1" {
+  source               = "./modules/ec2_instance"
+  ami                  = var.ec2_ami
+  instance_type        = var.ec2_instance_type
+  #key_name             = var.key_name
+  subnet_id            = module.subnets.private_subnet_ids[0]
+  security_group_id    = module.security_group.security_group_id
+  associate_public_ip  = false
+   tags_name        = var.ec2_tags_name
+  name_prefix          = "private"
+  instance_count       = 1
+}
 provider "aws" {
   region = "ap-south-1"  # Change to your preferred region
 }

@@ -32,11 +32,14 @@ variable "sg_egress_cidr_block" {
 
 variable "ec2_ami" {}
 variable "ec2_instance_type" {}
+#variable "key_name" {}
 variable "ec2_tags_name" {}
 
 variable "public_subnet_id" {
   type        = string
   description = "ID of public subnet"
 }
+#variable "private_subnet_id" {}
+#variable "public_sg_id" {}
 
 

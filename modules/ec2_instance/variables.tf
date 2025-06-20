@@ -29,3 +29,8 @@ variable "instance_count" {
   default     = 1
   description = "Number of EC2 instances to launch"
 }
+
+variable "associate_public_ip" {
+  type    = bool
+  default = false
+}

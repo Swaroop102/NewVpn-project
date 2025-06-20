@@ -37,5 +37,6 @@ sg_egress_protocol       = "-1"
 sg_egress_cidr_block     = ["0.0.0.0/0"]
 
 ec2_ami                  = "ami-0e35ddab05955cf57"
-ec2_instance_type        = "t2.micro"
+ec2_instance_type        = "t3.micro"
 ec2_tags_name            = "web-instance"
+#key_name          = "my-key"
