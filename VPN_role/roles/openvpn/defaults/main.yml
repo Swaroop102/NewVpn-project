@@ -1,0 +1,6 @@
+---
+# defaults file for VPN
+openvpn_port: 1194
+openvpn_proto: udp
+openvpn_subnet: 10.8.0.0
+openvpn_mask: 255.255.255.0

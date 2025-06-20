@@ -1,0 +1,50 @@
+---
+# tasks file for VPN
+- name: Install dependencies
+  apt:
+    name:
+      - openvpn
+      - easy-rsa
+    state: present
+    update_cache: yes
+
+- name: Copy easy-rsa scripts
+  copy:
+    src: easy-rsa.tar.gz
+    dest: /etc/openvpn/easy-rsa.tar.gz
+
+- name: Extract easy-rsa
+  unarchive:
+    src: /etc/openvpn/easy-rsa.tar.gz
+    dest: /etc/openvpn/
+    remote_src: yes
+
+- name: Create PKI, generate keys and certs
+  shell: |
+    cd /etc/openvpn/easy-rsa
+    ./easyrsa init-pki
+    echo -ne '\n' | ./easyrsa build-ca nopass
+    ./easyrsa gen-dh
+    ./easyrsa build-server-full server nopass
+    ./easyrsa build-client-full client1 nopass
+    ./easyrsa gen-crl
+  args:
+    creates: /etc/openvpn/easy-rsa/pki/ca.crt
+
+- name: Copy OpenVPN server config
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+
+- name: Enable IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+    reload: yes
+
+- name: Start OpenVPN service
+  service:
+    name: openvpn
+    state: started
+    enabled: yes
