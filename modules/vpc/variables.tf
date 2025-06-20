@@ -17,6 +17,7 @@ variable "tags_name" {
   type = string
 }
 
+
 variable "name_prefix" {
   description = "Prefix to use for resource names"
   type        = string

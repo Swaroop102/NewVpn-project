@@ -1,6 +1,7 @@
 module "vpc" {
   source           = "./modules/vpc"
   vpc_id  = var.vpc_id
+ # public_subnet_id  = aws_subnet.public.id
    name_prefix = "myproject"
   cidr_block       = var.vpc_cidr_block
   instance_tenancy = var.vpc_instance_tenancy
@@ -22,6 +23,11 @@ module "igw" {
   tags_name = var.igw_tags_name
 }
 
+module "networking" {
+  source = "./modules/networking"
+  vpc_id = module.vpc.vpc_id
+ public_subnet_ids  = module.subnets.public_subnet_ids
+}
 
 
 module "private_route_table" {
@@ -36,7 +42,7 @@ module "route_table_association" {
   source         = "./modules/route_table_association"
   count          = length(module.subnets.public_subnet_ids)
   subnet_id      = module.subnets.public_subnet_ids[count.index]
-  route_table_id = module.vpc.private_route_table_id
+  route_table_id = module.private_route_table.private_route_table_id
 
 }
 
